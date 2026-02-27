@@ -21,15 +21,17 @@ MAX_ITERATIONS = 5
 
 
 def generate_node(state: CustomGraphState) -> dict[str, Any]:
-    """"""
-    chat_messages = generation_chain.invoke({"chat_history": state["chat_history"]})
-    return {"chat_history": [chat_messages]}  # Why []? because `add_messages`
+    """Generate a tweet based on a user request and critic."""
+    gen_ai_response = generation_chain.invoke({"chat_history": state["chat_history"]})
+    return {"chat_history": [gen_ai_response]}  # Why []? because `add_messages`
 
 
 def reflect_node(state: CustomGraphState) -> dict[str, Any]:
-    """"""
-    result = reflection_chain.invoke({"chat_history": state["chat_history"]})
-    return {"chat_history": [HumanMessage(content=result.content)]}
+    """Generate a critique and recommendations for the user's tweet."""
+    reflection_result = reflection_chain.invoke({"chat_history": state["chat_history"]})
+    return {
+        "chat_history": [HumanMessage(content=reflection_result.content)]
+    }  # we wrap it with HumanMessage to make it more valuable for the LLM
 
 
 def choose_next_node(state: CustomGraphState) -> str:
