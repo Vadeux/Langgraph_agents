@@ -1,7 +1,9 @@
+import sqlite3
 from typing import TypedDict
 
 from dotenv import load_dotenv
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import END, START, StateGraph
 
 load_dotenv()
@@ -37,13 +39,14 @@ flow.add_edge("human_feedback", "step_3")
 
 flow.add_edge("step_3", END)
 
-memory = MemorySaver()
+conn = sqlite3.connect("checkpoints.sqlite", check_same_thread=False)
+memory = SqliteSaver(conn)
 
 graph = flow.compile(checkpointer=memory, interrupt_before=["human_feedback"])
 graph.get_graph().draw_mermaid_png(output_file_path="flow_diagram.png")
 
 if __name__ == "__main__":
-    thread = {"configurable": {"thread_id": 1}}
+    thread = {"configurable": {"thread_id": 21}}
 
     initial_input = {"input": "hello world"}
 
