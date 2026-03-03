@@ -3,7 +3,10 @@ from langgraph.graph import END, StateGraph
 
 from corrective_rag_agent.graph.chains.answer_grader import answer_grader
 from corrective_rag_agent.graph.chains.hallucination_grader import hallucination_grader
-from corrective_rag_agent.graph.chains.question_router import RouteQuery, question_router
+from corrective_rag_agent.graph.chains.question_router import (
+    RouteQuery,
+    question_router,
+)
 from corrective_rag_agent.graph.consts import (
     GENERATE,
     GRADE_DOCUMENTS,

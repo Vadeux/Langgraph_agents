@@ -7,7 +7,10 @@ from corrective_rag_agent.graph.chains.hallucination_grader import (
     GradeHallucinations,
     hallucination_grader,
 )
-from corrective_rag_agent.graph.chains.question_router import RouteQuery, question_router
+from corrective_rag_agent.graph.chains.question_router import (
+    RouteQuery,
+    question_router,
+)
 
 load_dotenv()
 from corrective_rag_agent.graph.chains.retrieval_grader import (
@@ -69,6 +72,7 @@ def test_hallucination_grader_answer_no() -> None:
         }
     )
     assert not res.binary_score
+
 
 def test_router_to_vectorstore() -> None:
     question = "agent memory"
